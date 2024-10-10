@@ -77,7 +77,7 @@ const userController = {
                 });
             }
             return res.status(200).json({
-                msg: 'User deletado com sucesso.',
+                msg: 'User visualizado com sucesso.',
                 user
             });
         } catch (error) {
