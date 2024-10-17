@@ -20,3 +20,14 @@ const validateUser = (req, res, next) => {
     next();
 
 }
+
+const validadeUserId = (req, res, next) => {
+    const { id } = req.params;
+
+    if (!id || typeof id !== 'string') {
+        return res.status(400).json({ msg: 'Parametro id inválido.' })
+    }
+    next();
+}
+
+module.exports = { validateUser, validadeUserId };
