@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
+const bcrypt = require('bcrypt');
 
 const Admin = sequelize.define('Admin', {
     nome: {
@@ -14,10 +15,11 @@ const Admin = sequelize.define('Admin', {
     senha: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
     }
 }, {
     timestamps: true
 });
+
+bcrypt.hash(Admin.senha, 8, (err, hash))
 
 module.exports = Admin;
