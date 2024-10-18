@@ -1,6 +1,42 @@
+const Admin = require("../models/admin");
 const adminService = require("../services/adminService")
+const jwt = require('jsonwebtoken')
 
 const adminController = {
+    login: async (req, res) => {
+        try {
+            const { email, senha } = req.body;
+
+            const admin = await Admin.findOne({ where: { email } });
+
+            if (!admin) {
+                return res.status(400).json({
+                    msg: "Email ou senha incorretos",
+                });
+            }
+
+            const isValida = await bcrypt.compare(senha, admin.senha);
+            if (!isValida) {
+                return res.status(400).json({
+                    msg: "Email ou senha incorretos",
+                });
+            }
+
+            const token = jwt.sign(
+                { email: admin.email, nome: admin.nome },
+                process.env.SECRET,
+                { expiresIn: "1h" }
+            );
+
+            return res.status(200).json({
+                msg: "Login realizado",
+                token,
+            });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ msg: "Acione o suporte" });
+        }
+    },
     create: async (req, res) => {
         try {
             const admin = await adminService.create(req.body);

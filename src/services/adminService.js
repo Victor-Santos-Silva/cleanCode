@@ -1,4 +1,5 @@
 const Admin = require("../models/admin");
+const bcrypt = require('bcrypt')
 
 const adminService = {
     create: async (req, res) => {
@@ -11,14 +12,8 @@ const adminService = {
         } catch (error) {
             throw new Error("Ocorreu um erro ao criar Admin.")
         }
-
-        /* try {
-            return await Admin.create(admin);
-        } catch (error) {
-            throw new Error('Ocorreu um erro ao criar Admin');
-        } */
     },
-    esqueciSenha: async (id, esqueciSenha) => {
+    esqueciSenha: async (id) => {
         try {
             const admin = await Admin.findByPk(id);
             if (!admin) {
