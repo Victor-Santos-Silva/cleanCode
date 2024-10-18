@@ -20,6 +20,10 @@ const Admin = sequelize.define('Admin', {
     timestamps: true
 });
 
-bcrypt.hash(Admin.senha, 8, (err, hash))
+bcrypt.hash(Admin.senha, 8, (err, hash) => {
+    if (err) {
+        
+    }
+})
 
 module.exports = Admin;
