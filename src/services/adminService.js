@@ -1,11 +1,33 @@
 const Admin = require("../models/admin");
 
 const adminService = {
-    create: async (admin) => {
+    create: async (req, res) => {
         try {
+            const { nome, email, senha } = req.body;
+            const hashSenha = await bcrypt.hash(senha, 10);
+
+            return await Admin.create({ nome, email, senha: hashSenha })
+
+        } catch (error) {
+            throw new Error("Ocorreu um erro ao criar Admin.")
+        }
+
+        /* try {
             return await Admin.create(admin);
         } catch (error) {
             throw new Error('Ocorreu um erro ao criar Admin');
+        } */
+    },
+    esqueciSenha: async (id, esqueciSenha) => {
+        try {
+            const admin = await Admin.findByPk(id);
+            if (!admin) {
+                return null
+            }
+            await admin.update({ senha: novaSenha });
+            return admin;
+        } catch (error) {
+            throw new Error("Ocorreu um erro ao atualizar senha.");
         }
     },
     update: async (id, adminToUpdate) => {
