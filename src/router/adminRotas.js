@@ -1,19 +1,27 @@
 const { Router } = require("express");
 const adminController = require("../controller/adminController")
-const router = Router();
 const { validateAdmin, validadeAdminId } = require("../middlewares/validateAdmin")
+const router = Router();
 
-router.post('/', validateAdmin, adminController.create); //funcao de criar
+//funcao de criar
+router.post('/', validateAdmin, adminController.create); 
 
 // funcao de editar
-router.put('/:id', validateAdmin, validadeAdminId, adminController.update); // parametro id
+router.put('/:id', validateAdmin, validadeAdminId, adminController.update);
+
+//funçao de esqueci senha
+router.put('/:id', validateAdmin, validadeAdminId, adminController.esqueciSenha)
 
 // funcao de deletar
-router.delete('/:id', validadeAdminId, adminController.delete); // parametro id
+router.delete('/:id', validadeAdminId, adminController.delete); 
 
 // funcao buscar unico
-router.get('/:id', validadeAdminId, adminController.getOne); // parametro id
+router.get('/:id', validadeAdminId, adminController.getOne); 
 
+//busca todos os admins
 router.get('/', adminController.getAll);
+
+// logar
+router.get('/login', adminController.login);
 
 module.exports = router;

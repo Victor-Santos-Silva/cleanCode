@@ -2,7 +2,6 @@ const validateAdmin = (req, res, next) => {
     const { nome, email, senha } = req.body;
 
     if (!nome || typeof nome !== 'string') {
-        // 400 -> Bad request
         return res.status(400).json({ msg: 'Campos inválidos.' });
     }
 
@@ -15,7 +14,7 @@ const validateAdmin = (req, res, next) => {
     }
 
 
-    if (!(email.includes("@") && email.includes(".com"))) {
+    if (!(email.includes("@") && email.includes("."))) {
         return res.status(400).json({ msg: 'Campo email invalido.' })
     }
 

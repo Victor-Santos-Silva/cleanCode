@@ -43,13 +43,31 @@ const adminController = {
             return res.status(201).json({
                 msg: 'Admin criado com sucesso',
                 admin
-            })
+            });
         } catch (error) {
             return res.status(500).json({
                 msg: 'Erro ao tentar criar o admin'
-            })
+            });
         }
     },
+    esqueciSenha: async (req, res) => {
+        try {
+          const admin = await adminService.esqueciSenha(req.params.id, req.body);
+          if (!admin) {
+            return res.status(400).json({
+              msg: "Admin nao encontrado",
+            });
+          }
+          return res.status(200).json({
+            msg: "Senha do admin foi atualizada com sucesso",
+            admin,
+          });
+        } catch (error) {
+          return res.status(500).json({
+            msg: "Erro ao atualizar o Admin",
+          });
+        }
+      },
     update: async (req, res) => {
         try {
             const admin = await adminService.update(req.params.id, req.body);
