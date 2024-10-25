@@ -5,7 +5,8 @@ const adminService = {
     create: async (admin) => {
         try {
             const { nome, senha, email } = admin;
-            
+            console.log({ nome, senha, email });
+
             const hashSenha = await bcrypt.hash(senha, 10);
 
             return await Admin.create({ nome, email, senha: hashSenha });
@@ -20,7 +21,9 @@ const adminService = {
             if (!admin) {
                 return null;
             }
-            await admin.update({ senha: novaSenha });
+            const hashSenha = await bcrypt.hash(novaSenha, 10);
+            await admin.update({ senha: hashSenha });
+            await admin.save()
             return admin;
         } catch (error) {
             throw new Error("Ocorreu um erro ao trocar a senha do Admin");
