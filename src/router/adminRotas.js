@@ -24,4 +24,7 @@ router.get('/', adminController.getAll);
 // logar
 router.post('/login', adminController.login);
 
+//Esqueci Senha
+router.post('/esquecisenha', adminController.esqueciSenha);
+
 module.exports = router;

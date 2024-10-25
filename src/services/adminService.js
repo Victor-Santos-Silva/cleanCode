@@ -5,8 +5,7 @@ const adminService = {
     create: async (admin) => {
         try {
             const { nome, senha, email } = admin;
-            console.log({ nome, senha, email });
-
+            
             const hashSenha = await bcrypt.hash(senha, 10);
 
             return await Admin.create({ nome, email, senha: hashSenha });
@@ -15,15 +14,19 @@ const adminService = {
             throw new Error("Ocorreu um erro ao criar Admin");
         }
     },
-    esqueciSenha: async (id, novaSenha) => {
+    esqueciSenha: async (email, novaSenha) => {
         try {
             const admin = await Admin.findByPk(id);
             if (!admin) {
                 return null;
             }
+    
+            if (admin.email !== email) {
+                return null;
+            }
+    
             const hashSenha = await bcrypt.hash(novaSenha, 10);
             await admin.update({ senha: hashSenha });
-            await admin.save()
             return admin;
         } catch (error) {
             throw new Error("Ocorreu um erro ao trocar a senha do Admin");

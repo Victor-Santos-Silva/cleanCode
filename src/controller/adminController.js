@@ -38,6 +38,7 @@ const adminController = {
             return res.status(500).json({ msg: "Acione o suporte" });
         }
     },
+
     create: async (req, res) => {
         try {
             const admin = await adminService.create(req.body);
@@ -51,24 +52,27 @@ const adminController = {
             });
         }
     },
+
     esqueciSenha: async (req, res) => {
+        const { email, novaSenha } = req.body;
         try {
-          const admin = await adminService.esqueciSenha(req.params.id, req.body);
-          if (!admin) {
-            return res.status(400).json({
-              msg: "Admin nao encontrado",
+            const admin = await adminService.esqueciSenha(email, novaSenha);
+            if (!admin) {
+                return res.status(400).json({
+                    msg: "Admin não encontrado ou email incorreto",
+                });
+            }
+            return res.status(200).json({
+                msg: "Senha do admin foi atualizada com sucesso",
+                admin,
             });
-          }
-          return res.status(200).json({
-            msg: "Senha do admin foi atualizada com sucesso",
-            admin,
-          });
         } catch (error) {
-          return res.status(500).json({
-            msg: "Erro ao atualizar o Admin",
-          });
+            return res.status(500).json({
+                msg: "Erro ao atualizar o Admin",
+            });
         }
-      },
+    },
+
     update: async (req, res) => {
         try {
             const admin = await adminService.update(req.params.id, req.body);
@@ -87,6 +91,7 @@ const adminController = {
             })
         }
     },
+
     getAll: async (req, res) => {
         try {
             const admins = await adminService.getAll();
@@ -100,6 +105,7 @@ const adminController = {
             });
         }
     },
+
     getOne: async (req, res) => {
         try {
             const admin = await adminService.getById(req.params.id);
@@ -118,6 +124,7 @@ const adminController = {
             });
         }
     },
+
     delete: async (req, res) => {
         try {
             const admin = await adminService.delete(req.params.id);
